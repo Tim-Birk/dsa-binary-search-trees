@@ -68,27 +68,100 @@ class BinarySearchTree {
   /** find(val): search the tree for a node with value val.
    * return the node, if found; else undefined. Uses iteration. */
 
-  find(val) {}
+  find(val) {
+    if (val === this.root.val) return this.root;
+
+    let current = this.root;
+    let isFound = false;
+
+    while (current && !isFound) {
+      if (val < current.val) {
+        current = current.left;
+      } else if (val > current.val) {
+        current = current.right;
+      } else {
+        isFound = true;
+      }
+    }
+
+    if (!isFound) return;
+    return current;
+  }
 
   /** findRecursively(val): search the tree for a node with value val.
    * return the node, if found; else undefined. Uses recursion. */
 
-  findRecursively(val) {}
+  findRecursively(val, node) {
+    let current = node ? node : this.root;
+    if (!current) return;
+    if (val < current.val) {
+      if (!current.left) {
+        return;
+      } else {
+        return this.findRecursively(val, current.left);
+      }
+    } else if (val > current.val) {
+      if (!current.right) {
+        return;
+      } else {
+        return this.findRecursively(val, current.right);
+      }
+    }
+
+    return current;
+  }
 
   /** dfsPreOrder(): Traverse the array using pre-order DFS.
    * Return an array of visited nodes. */
 
-  dfsPreOrder() {}
+  dfsPreOrder() {
+    let values = [];
+    let current = this.root;
+
+    const traverse = (currentNode) => {
+      // Add the current node to the values array
+      values.push(currentNode.val);
+      currentNode.left && traverse(currentNode.left);
+      currentNode.right && traverse(currentNode.right);
+    };
+
+    traverse(current);
+    return values;
+  }
 
   /** dfsInOrder(): Traverse the array using in-order DFS.
    * Return an array of visited nodes. */
 
-  dfsInOrder() {}
+  dfsInOrder() {
+    let values = [];
+    let current = this.root;
+
+    const traverse = (currentNode) => {
+      currentNode.left && traverse(currentNode.left);
+      values.push(currentNode.val);
+      currentNode.right && traverse(currentNode.right);
+    };
+
+    traverse(current);
+    return values;
+  }
 
   /** dfsPostOrder(): Traverse the array using post-order DFS.
    * Return an array of visited nodes. */
 
-  dfsPostOrder() {}
+  dfsPostOrder() {
+    let values = [];
+    let current = this.root;
+
+    const traverse = (currentNode) => {
+      currentNode.left && traverse(currentNode.left);
+      currentNode.right && traverse(currentNode.right);
+      values.push(currentNode.val);
+    };
+
+    traverse(current);
+    return values;
+  }
 
   /** bfs(): Traverse the array using BFS.
    * Return an array of visited nodes. */
